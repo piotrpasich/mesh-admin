@@ -22,7 +22,7 @@ trait NetworkParameterTrait
 
     protected function getNetwork(): Network
     {
-        $network = $this->networkRepository->findOneById($this->getNetworkId(), $this->getUser());
+        $network = $this->networkRepository->findOneByIdAndUser($this->getNetworkId(), $this->getUser());
         if (!$network) {
             throw new \Exception('Network not found');
         }

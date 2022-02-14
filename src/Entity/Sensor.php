@@ -21,11 +21,17 @@ class Sensor
     #[ORM\Column(type: 'string', length: 255)]
     private $sensorType;
 
+    #[ORM\Column(type: 'string', length: 255)]
+    private $externalId;
+
     #[ORM\ManyToOne(targetEntity: Network::class, inversedBy: 'sensors')]
     private $network;
 
     #[ORM\OneToMany(mappedBy: 'sensorA', targetEntity: Connection::class)]
     private $connections;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $value;
 
     public function __construct()
     {
@@ -101,5 +107,37 @@ class Sensor
         }
 
         return $this;
+    }
+
+    public function getExternalId()
+    {
+        return $this->externalId;
+    }
+
+    public function setExternalId($externalId): void
+    {
+        $this->externalId = $externalId;
+    }
+
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    public function setValue($value): void
+    {
+        $this->value = $value;
+    }
+
+    public function setValueFromObject($object): void
+    {
+        switch ($this->getSensorType()) {
+            case 'Temperature':
+                $this->value = $object->temperature;
+                break;
+            case 'Light':
+                $this->value = $object->state;
+                break;
+        }
     }
 }

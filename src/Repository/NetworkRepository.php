@@ -20,7 +20,7 @@ class NetworkRepository extends ServiceEntityRepository
         parent::__construct($registry, Network::class);
     }
 
-    public function findOneById($id, User $owner): ?Network
+    public function findOneByIdAndUser($id, User $owner): ?Network
     {
         return $this->createQueryBuilder('n')
             ->join('n.owner', 'o')
@@ -33,32 +33,24 @@ class NetworkRepository extends ServiceEntityRepository
             ;
     }
 
-    // /**
-    //  * @return Network[] Returns an array of Network objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findOneById($id): ?Network
     {
         return $this->createQueryBuilder('n')
-            ->andWhere('n.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('n.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Network
-    {
-        return $this->createQueryBuilder('n')
-            ->andWhere('n.exampleField = :val')
-            ->setParameter('val', $value)
+            ->join('n.owner', 'o')
+            ->andWhere('n.id = :id')
+            ->setParameter('id', $id)
             ->getQuery()
             ->getOneOrNullResult()
-        ;
+            ;
     }
-    */
+    public function findOneByQueue($queue): ?Network
+    {
+        return $this->createQueryBuilder('n')
+            ->join('n.owner', 'o')
+            ->andWhere('n.queue = :queue')
+            ->setParameter('queue', $queue)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
 }

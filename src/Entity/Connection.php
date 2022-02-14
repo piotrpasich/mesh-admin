@@ -59,19 +59,19 @@ class Connection
         return $this;
     }
 
-    public function getSensorA(): ?Sensor
-    {
-        return $this->sensorA;
-    }
-
     public function getSensorAId(): ?int
     {
-        return $this->sensorBId ?? ($this->getSensorA() ? $this->getSensorA()->getId() : null);
+        return $this->sensorAId ?? ($this->getSensorA() ? $this->getSensorA()->getId() : null);
     }
 
     public function getSensorBId(): ?int
     {
         return $this->sensorBId ?? ($this->getSensorB() ? $this->getSensorB()->getId() : null);
+    }
+
+    public function getSensorA(): ?Sensor
+    {
+        return $this->sensorA;
     }
 
     public function setSensorA($sensorA): self

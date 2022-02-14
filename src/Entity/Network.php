@@ -18,8 +18,8 @@ class Network
     #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
-    #[ORM\Column(type: 'string', length: 24, nullable: true)]
-    private $ip;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $queue;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'networks')]
     private $owner;
@@ -49,16 +49,20 @@ class Network
         return $this;
     }
 
-    public function getIp(): ?string
+    /**
+     * @return mixed
+     */
+    public function getQueue()
     {
-        return $this->ip;
+        return $this->queue;
     }
 
-    public function setIp(?string $ip): self
+    /**
+     * @param mixed $queue
+     */
+    public function setQueue($queue): void
     {
-        $this->ip = $ip;
-
-        return $this;
+        $this->queue = $queue;
     }
 
     public function getOwner(): ?User

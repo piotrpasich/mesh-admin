@@ -36,11 +36,24 @@ class SensorRepository extends ServiceEntityRepository
             ;
     }
 
-    public function getById(int $sensorId): ?Sensor
+    public function getById(?int $sensorId): ?Sensor
     {
+        if (!$sensorId) {
+            return null;
+        }
         return $this->createQueryBuilder('s')
             ->andWhere('s.id = :id')
             ->setParameter('id', $sensorId)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+
+    public function getByExternalId(string $sensorExternalId): ?Sensor
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.externalId = :id')
+            ->setParameter('id', $sensorExternalId)
             ->getQuery()
             ->getOneOrNullResult()
             ;

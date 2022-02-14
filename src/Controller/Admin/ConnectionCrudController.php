@@ -34,7 +34,6 @@ class ConnectionCrudController extends AbstractCrudController
 
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
-
         $result = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
 
 //        $result->andWhere('entity.network = :network');
@@ -43,23 +42,12 @@ class ConnectionCrudController extends AbstractCrudController
         return $result;
     }
 
-//    public function createEntity(string $entityFqcn)
-//    {
-//
-//        var_dump($entityFqcn);die();
-//        $product = new Network();
-//        $product->setOwner($this->getUser());
-//
-//        return $product;
-//    }
-
     public function configureFields(string $pageName): iterable
     {
         $sensors = $this->getNetwork()->getSensors();
 
         $keys = array_map(function ($sensor) {
             return $sensor->getName();
-            return $sensor->getId();
         }, $sensors->toArray());
         $values = array_map(function ($sensor) {
             return $sensor->getId();

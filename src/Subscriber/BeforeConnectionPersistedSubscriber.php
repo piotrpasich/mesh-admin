@@ -5,6 +5,7 @@ namespace App\Subscriber;
 use App\Entity\Connection;
 use App\Repository\SensorRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
+use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityUpdatedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class BeforeConnectionPersistedSubscriber implements EventSubscriberInterface
@@ -24,10 +25,13 @@ class BeforeConnectionPersistedSubscriber implements EventSubscriberInterface
             BeforeEntityPersistedEvent::class => [
                 ['process', 10],
             ],
+            BeforeEntityUpdatedEvent::class => [
+                ['process', 10],
+            ],
         ];
     }
 
-    public function process(BeforeEntityPersistedEvent $event): void
+    public function process(BeforeEntityPersistedEvent | BeforeEntityUpdatedEvent $event): void
     {
         $entity = $event->getEntityInstance();
         if (!($entity instanceof Connection)) {
